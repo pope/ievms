@@ -123,14 +123,10 @@ build_ievm() {
     if [[ ! -f "${vhd}" ]]
     then
 
-        log "Checking for downloaded VHD at ${vhd_path}/${archive}"
-        if [[ ! -f "${archive}" ]]
+        log "Downloading VHD from ${url} to ${ievms_home}/"
+        if ! curl -C - -L -O "${url}"
         then
-            log "Downloading VHD from ${url} to ${ievms_home}/"
-            if ! curl -L -O "${url}"
-            then
-                fail "Failed to download ${url} to ${vhd_path}/ using 'curl', error code ($?)"
-            fi
+            fail "Failed to download ${url} to ${vhd_path}/ using 'curl', error code ($?)"
         fi
 
         rm -f "${vhd_path}/*.vmc"
